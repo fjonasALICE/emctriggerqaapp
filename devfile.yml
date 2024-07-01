@@ -1,0 +1,47 @@
+apiVersion: 1.0.0
+metadata:  
+  generateName: emctriggerqa-
+projects:
+  - name: emctriggerqaapp
+    source:
+      type: git
+      location: "https://github.com/mfasDa/emctriggerqaapp.git"
+components:
+  - type: chePlugin
+    id: ms-python/python/latest
+  - type: dockerimage
+    alias: python
+    image: quay.io/eclipse/che-python-3.8:next
+    memoryLimit: 512Mi
+    mountSources: true
+    env:
+      - name: DATAPATH
+        value: '/data'
+    endpoints:
+      - name: websocket-forward
+        port: 8080
+        attributes:
+          protocol: http
+          secure: 'false'
+          public: 'true'
+          discoverable: 'false'
+    volumeMounts:
+      - mountPath: "/data"
+        name: "pvol"
+volumes:
+    - name: "pvol"
+      persistentVolumeClaim:
+        claimName: "emctriggerqadata"
+commands:
+  - name: run
+    actions:
+      - type: exec
+        component: python
+        command: '${HOME}/.local/bin/gunicorn wsgi:application -b 0.0.0.0:8080'
+        workdir: '${CHE_PROJECTS_ROOT}/emctriggerqaapp'
+  - name: install
+    actions:
+      - type: exec
+        component: python
+        command: 'pip3 install -r requirements.txt'
+        workdir: '${CHE_PROJECTS_ROOT}/emctriggerqaapp'
