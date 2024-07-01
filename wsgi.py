@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 import os
 
-from app import app
+from webapp.app import app
 
 DATAREPO=os.environ["DATAPATH"]
 
