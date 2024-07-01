@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+Available periods
+<ul>
+{% for item in listitems %}
+<li> <a href="{{url_for('display_period', period=item)}}"> {{item}} </a> </li>
+{% endfor %}
+</ul>
+<a href="{{url_for('display_changelog')}}">Changelog</a>
+{% endblock %}

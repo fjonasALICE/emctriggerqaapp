@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+Available runs
+<table border="1px solid black">
+    <tr>
+    <th>Run number</th>
+    <th>Photon trigger QA</th>
+    <th>Jet trigger</th>
+    </tr>
+{% for run in runs %}
+<tr>
+<td>{{run}}</td>
+<td><img src="{{url_for('static', filename=plots[run]['photon'])}}" height="300px"> </td>
+<td><img src="{{url_for('static', filename=plots[run]['jet'])}}" height="300px"> </td>
+</tr>
+{% endfor %}
+</ul>
+</table>
+<a href="{{url_for('mainpage')}}"> Back to period</a>
+{% endblock %}

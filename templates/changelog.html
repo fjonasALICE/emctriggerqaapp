@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<ul>
+{% for timestamp in timestamps %}
+<li> {{timestamp}}: </li>
+<ul>
+{% for change in changes[timestamp] %}   
+<li> {{change["period"]}}, run {{change["run"]}}</li>
+{% endfor %}
+</ul>
+{% endfor %}
+</ul>
+<a href="{{url_for('mainpage')}}"> Back to period</a>
+{% endblock %}
