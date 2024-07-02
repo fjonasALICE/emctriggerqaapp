@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Trending plots</h2>
+<table border="1px solid black">
+<tr>
+    <th></th>
+    <th> Any </th>
+    <th> Photon </th>
+    <th> Jet </th>
+</tr>
+{% for trendtype,trendplots in trendings.items() %}
+<tr>
+<td>{{trendtype}}</td>
+<td><img src="{{url_for('static', filename=trendplots['any'])}}" height="300px"></td>
+<td><img src="{{url_for('static', filename=trendplots['photon'])}}" height="300px"></td>
+<td><img src="{{url_for('static', filename=trendplots['jet'])}}" height="300px"></td>
+{% endfor %}
+</tr>
+</table>
+<h2>Available runs:</h2>
+<table border="1px solid black">
+    <tr>
+    <th>Run number</th>
+    <th>Photon trigger QA</th>
+    <th>Jet trigger</th>
+    </tr>
+{% for run in runs %}
+<tr>
+<td>{{run}}</td>
+<td><img src="{{url_for('static', filename=plots[run]['photon'])}}" height="300px"> </td>
+<td><img src="{{url_for('static', filename=plots[run]['jet'])}}" height="300px"> </td>
+</tr>
+{% endfor %}
+</ul>
+</table>
+<a href="{{url_for('mainpage')}}"> Back to period</a>
+{% endblock %}

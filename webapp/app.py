@@ -19,6 +19,30 @@ def find_runs(perioddir: str):
 def find_plots_for_run(rundir: str) -> list:
     return [x for x in os.listdir(rundir) if x.endswith("png")]
 
+def find_trending_plots(perioddir: str):
+    return [x for x in os.listdir(perioddir) if x.endswith(".png")]
+
+def categorize_trending_plots(trendingplots: list) -> dict:
+    categorized = {"Absolute": {}, "Deviaton": {}}
+    for plot in trendingplots:
+        plotbase = os.path.basename(plot)
+        key = ""
+        if "Rejection" in plotbase:
+            key = "Absolute"
+        elif "RejDeviation" in plotbase:
+            key = "Deviaton"
+        trigger = ""
+        if "FullJetTrigger" in plotbase:
+            trigger = "jet"
+        elif "PhotonTrigger" in plotbase:
+            trigger = "photon"
+        elif "AnyEMCTrigger" in plotbase:
+            trigger = "any"
+        if not len(key) and not len(trigger):
+            continue
+        categorized[key][trigger] = plot
+    return categorized
+
 def read_changelog() -> dict:
     changes = {}
     changelogfile = os.path.join(repo, "changelog.txt")
@@ -49,6 +73,8 @@ def read_changelog() -> dict:
 
 @app.route("/<period>", methods=["GET"])
 def display_period(period: str):
+    trendingplots = [f"{period}/{x}" for x in find_trending_plots(os.path.join(repo, "results", period))]
+    categorized_trendings = categorize_trending_plots(trendingplots)
     runs = find_runs(os.path.join(repo, period))
     plots = {}
     for run in runs:
@@ -64,7 +90,8 @@ def display_period(period: str):
     return render_template('period.html',
                            title=f"QA plots for period {period}",
                            runs = runs,
-                           plots = plots)
+                           plots = plots,
+                           trendings = categorized_trendings)
 
 @app.route("/changelog")
 def display_changelog():
@@ -79,3 +106,8 @@ def mainpage():
     return render_template('start.html',
                            title="Welcome to the ALICE Offline Trigger monitoring",
                            listitems = find_periods())
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                          'favicon.ico',mimetype='image/vnd.microsoft.icon')
