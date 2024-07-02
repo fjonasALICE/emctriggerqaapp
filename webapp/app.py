@@ -73,7 +73,7 @@ def read_changelog() -> dict:
 
 @app.route("/<period>", methods=["GET"])
 def display_period(period: str):
-    trendingplots = [f"{period}/{x}" for x in find_trending_plots(os.path.join(repo, "results", period))]
+    trendingplots = [f"{period}/{x}" for x in find_trending_plots(os.path.join(repo, period))]
     categorized_trendings = categorize_trending_plots(trendingplots)
     runs = find_runs(os.path.join(repo, period))
     plots = {}
