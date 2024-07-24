@@ -84,6 +84,8 @@ def display_period(period: str):
             plotname = f"{period}/{run}/{plot}"
             if "PhotonTriggerQA" in plot:
                 categorized["photon"] = plotname
+            elif "asyncTriggerSelectivity" in plot:
+                categorized["selectivity"] = plotname
             else:
                 categorized["jet"] = plotname
         plots[run] = categorized
