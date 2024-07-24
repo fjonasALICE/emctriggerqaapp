@@ -23,12 +23,14 @@
     <th>Run number</th>
     <th>Photon trigger QA</th>
     <th>Jet trigger</th>
+    <th>Trigger selectivity</th>
     </tr>
 {% for run in runs %}
 <tr>
 <td>{{run}}</td>
 <td><img src="{{url_for('static', filename=plots[run]['photon'])}}" height="300px"> </td>
 <td><img src="{{url_for('static', filename=plots[run]['jet'])}}" height="300px"> </td>
+<td><img src="{{url_for('static', filename=plots[run]['selectivity'])}}" height="300px"> </td>
 </tr>
 {% endfor %}
 </ul>
