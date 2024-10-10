@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-Available periods
+Welcome to the website for monitoring of the EMCal software triggers! Available periods:
 <ul>
 {% for item in listitems %}
 <li> <a href="{{url_for('display_period', period=item)}}"> {{item}} </a> </li>
