@@ -31,8 +31,8 @@ def categorize_trending_plots(trendingplots: list) -> dict:
             key = "Absolute"
         elif "RejDeviation" in plotbase:
             key = "Deviaton"
-        elif "Correlation" in plotbase:
-            key = "Correlations"
+        elif "Correlations" in plotbase:
+            key = "Correlation"
         trigger = ""
         if "FullJetTrigger" in plotbase:
             trigger = "jet"
