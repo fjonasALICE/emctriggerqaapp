@@ -23,7 +23,7 @@ def find_trending_plots(perioddir: str):
     return [x for x in os.listdir(perioddir) if x.endswith(".png")]
 
 def categorize_trending_plots(trendingplots: list) -> dict:
-    categorized = {"Absolute": {}, "Deviaton": {}}
+    categorized = {"Absolute": {}, "Deviaton": {}, "Correlation": {}}
     for plot in trendingplots:
         plotbase = os.path.basename(plot)
         key = ""
@@ -31,6 +31,8 @@ def categorize_trending_plots(trendingplots: list) -> dict:
             key = "Absolute"
         elif "RejDeviation" in plotbase:
             key = "Deviaton"
+        elif "Correlation" in plotbase:
+            key = "Correlation"
         trigger = ""
         if "FullJetTrigger" in plotbase:
             trigger = "jet"
