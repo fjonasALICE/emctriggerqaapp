@@ -1,39 +1,80 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Trending plots</h2>
-<table border="1px solid black">
-<tr>
-    <th></th>
-    <th> Any </th>
-    <th> Photon </th>
-    <th> Jet </th>
-</tr>
-{% for trendtype,trendplots in trendings.items() %}
-<tr>
-<td>{{trendtype}}</td>
-<td><img src="{{url_for('static', filename=trendplots['any'])}}" height="300px"></td>
-<td><img src="{{url_for('static', filename=trendplots['photon'])}}" height="300px"></td>
-<td><img src="{{url_for('static', filename=trendplots['jet'])}}" height="300px"></td>
-{% endfor %}
-</tr>
-</table>
-<h2>Available runs:</h2>
-<table border="1px solid black">
-    <tr>
-    <th>Run number</th>
-    <th>Photon trigger QA</th>
-    <th>Jet trigger</th>
-    <th>Trigger selectivity</th>
-    </tr>
-{% for run in runs %}
-<tr>
-<td>{{run}}</td>
-<td><img src="{{url_for('static', filename=plots[run]['photon'])}}" height="300px"> </td>
-<td><img src="{{url_for('static', filename=plots[run]['jet'])}}" height="300px"> </td>
-<td><img src="{{url_for('static', filename=plots[run]['selectivity'])}}" height="300px"> </td>
-</tr>
-{% endfor %}
-</ul>
-</table>
+<div class="card mb-4">
+    <div class="card-header">
+        <h2 class="card-title mb-0">Trending Plots</h2>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Any</th>
+                        <th scope="col">Photon</th>
+                        <th scope="col">Jet</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for trendtype,trendplots in trendings.items() %}
+                    <tr>
+                        <th scope="row">{{trendtype}}</th>
+                        <td><img src="{{url_for('static', filename=trendplots['any'])}}" class="img-fluid" alt="Any trend"></td>
+                        <td><img src="{{url_for('static', filename=trendplots['photon'])}}" class="img-fluid" alt="Photon trend"></td>
+                        <td><img src="{{url_for('static', filename=trendplots['jet'])}}" class="img-fluid" alt="Jet trend"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title mb-0">Available Runs</h2>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="runsTable" class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">Run Number</th>
+                        <th scope="col">Photon Trigger QA</th>
+                        <th scope="col">Jet Trigger</th>
+                        <th scope="col">Trigger Selectivity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for run in runs %}
+                    <tr>
+                        <th scope="row">{{run}}</th>
+                        <td><img src="{{url_for('static', filename=plots[run]['photon'])}}" class="img-fluid" alt="Photon QA"></td>
+                        <td><img src="{{url_for('static', filename=plots[run]['jet'])}}" class="img-fluid" alt="Jet QA"></td>
+                        <td><img src="{{url_for('static', filename=plots[run]['selectivity'])}}" class="img-fluid" alt="Selectivity"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 <a href="{{url_for('mainpage')}}"> Back to period</a>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    $('#runsTable').DataTable({
+        order: [[0, 'desc']], // Sort by run number (first column) in descending order
+        pageLength: 25,       // Show 25 entries per page
+        columnDefs: [
+            {
+                targets: [1, 2, 3], // Disable sorting on image columns
+                orderable: false
+            }
+        ]
+    });
+});
+</script>
 {% endblock %}

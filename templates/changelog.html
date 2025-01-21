@@ -1,14 +1,28 @@
 {% extends "base.html" %}
 {% block content %}
-<ul>
-{% for timestamp in timestamps %}
-<li> {{timestamp}}: </li>
-<ul>
-{% for change in changes[timestamp] %}   
-<li> {{change["period"]}}, run {{change["run"]}}</li>
-{% endfor %}
-</ul>
-{% endfor %}
-</ul>
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title mb-0">Changelog</h2>
+    </div>
+    <div class="card-body">
+        <div class="timeline">
+            {% for timestamp in timestamps %}
+            <div class="mb-4">
+                <h5 class="text-primary">{{timestamp}}</h5>
+                <div class="list-group ms-4">
+                    {% for change in changes[timestamp] %}
+                    <div class="list-group-item list-group-item-action">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span>Period: <strong>{{change["period"]}}</strong></span>
+                            <span class="badge bg-secondary">Run {{change["run"]}}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 <a href="{{url_for('mainpage')}}"> Back to period</a>
 {% endblock %}
