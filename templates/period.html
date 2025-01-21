@@ -1,5 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
+<!-- Image Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img src="" class="img-fluid" id="modalImage">
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="card mb-4">
     <div class="card-header">
         <h2 class="card-title mb-0">Trending Plots</h2>
@@ -19,9 +34,9 @@
                     {% for trendtype,trendplots in trendings.items() %}
                     <tr>
                         <th scope="row">{{trendtype}}</th>
-                        <td><img src="{{url_for('static', filename=trendplots['any'])}}" class="img-fluid" alt="Any trend"></td>
-                        <td><img src="{{url_for('static', filename=trendplots['photon'])}}" class="img-fluid" alt="Photon trend"></td>
-                        <td><img src="{{url_for('static', filename=trendplots['jet'])}}" class="img-fluid" alt="Jet trend"></td>
+                        <td><img src="{{url_for('static', filename=trendplots['any'])}}" class="img-fluid clickable-image" alt="Any trend - {{trendtype}}" style="cursor: pointer;"></td>
+                        <td><img src="{{url_for('static', filename=trendplots['photon'])}}" class="img-fluid clickable-image" alt="Photon trend - {{trendtype}}" style="cursor: pointer;"></td>
+                        <td><img src="{{url_for('static', filename=trendplots['jet'])}}" class="img-fluid clickable-image" alt="Jet trend - {{trendtype}}" style="cursor: pointer;"></td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -49,9 +64,9 @@
                     {% for run in runs %}
                     <tr>
                         <th scope="row">{{run}}</th>
-                        <td><img src="{{url_for('static', filename=plots[run]['photon'])}}" class="img-fluid" alt="Photon QA"></td>
-                        <td><img src="{{url_for('static', filename=plots[run]['jet'])}}" class="img-fluid" alt="Jet QA"></td>
-                        <td><img src="{{url_for('static', filename=plots[run]['selectivity'])}}" class="img-fluid" alt="Selectivity"></td>
+                        <td><img src="{{url_for('static', filename=plots[run]['photon'])}}" class="img-fluid clickable-image" alt="Photon QA - Run {{run}}" style="cursor: pointer;"></td>
+                        <td><img src="{{url_for('static', filename=plots[run]['jet'])}}" class="img-fluid clickable-image" alt="Jet QA - Run {{run}}" style="cursor: pointer;"></td>
+                        <td><img src="{{url_for('static', filename=plots[run]['selectivity'])}}" class="img-fluid clickable-image" alt="Selectivity - Run {{run}}" style="cursor: pointer;"></td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -65,6 +80,7 @@
 {% block scripts %}
 <script>
 $(document).ready(function() {
+    // Initialize DataTable
     $('#runsTable').DataTable({
         order: [[0, 'desc']], // Sort by run number (first column) in descending order
         pageLength: 25,       // Show 25 entries per page
@@ -74,6 +90,15 @@ $(document).ready(function() {
                 orderable: false
             }
         ]
+    });
+
+    // Handle image clicks
+    $('.clickable-image').click(function() {
+        var imgSrc = $(this).attr('src');
+        var imgAlt = $(this).attr('alt');
+        $('#modalImage').attr('src', imgSrc);
+        $('.modal-title').text(imgAlt);
+        $('#imageModal').modal('show');
     });
 });
 </script>
