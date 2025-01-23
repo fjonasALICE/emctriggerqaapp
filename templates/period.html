@@ -63,7 +63,15 @@
                 <tbody>
                     {% for run in runs %}
                     <tr>
-                        <th scope="row">{{run}}</th>
+                        <th scope="row">
+                            {{run}}
+                            <a href="https://ali-qcg.cern.ch/?page=layoutShow&layoutId=6253132b974e95413c4d178b&tab=cell%20overview&RunNumber={{run}}" 
+                               class="btn btn-sm btn-outline-primary ms-2" 
+                               target="_blank" 
+                               title="Open in QC GUI">
+                                QC
+                            </a>
+                        </th>
                         <td><img src="{{url_for('static', filename=plots[run]['photon'])}}" class="img-fluid clickable-image" alt="Photon QA - Run {{run}}" style="cursor: pointer;"></td>
                         <td><img src="{{url_for('static', filename=plots[run]['jet'])}}" class="img-fluid clickable-image" alt="Jet QA - Run {{run}}" style="cursor: pointer;"></td>
                         <td><img src="{{url_for('static', filename=plots[run]['selectivity'])}}" class="img-fluid clickable-image" alt="Selectivity - Run {{run}}" style="cursor: pointer;"></td>
