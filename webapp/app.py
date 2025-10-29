@@ -25,7 +25,7 @@ def find_trending_plots(perioddir: str):
     return [x for x in os.listdir(perioddir) if x.endswith(".png")]
 
 def categorize_trending_plots(trendingplots: list) -> dict:
-    categorized = {"Absolute": {}, "Deviaton": {}, "Correlation": {}}
+    categorized = {"Absolute": {}, "Deviaton": {}, "Correlation": {}, "OverReadout": {}}
     for plot in trendingplots:
         plotbase = os.path.basename(plot)
         key = ""
@@ -35,6 +35,9 @@ def categorize_trending_plots(trendingplots: list) -> dict:
             key = "Deviaton"
         elif "Correlations" in plotbase:
             key = "Correlation"
+        elif "OverEMCalReadout" in plotbase:
+            key = "OverReadout"
+
         trigger = ""
         if "FullJetTrigger" in plotbase:
             trigger = "jet"
@@ -42,6 +45,12 @@ def categorize_trending_plots(trendingplots: list) -> dict:
             trigger = "photon"
         elif "AnyEMCTrigger" in plotbase:
             trigger = "any"
+        elif "GammaVeryLow" in plotbase:
+            trigger = "gammaverylow"
+        elif "GammaLow" in plotbase:
+            trigger = "gammalow"
+        elif "GammaHigh" in plotbase:
+            trigger = "gammahigh"
         if not len(key) and not len(trigger):
             continue
         categorized[key][trigger] = plot

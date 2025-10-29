@@ -25,25 +25,46 @@
                 <thead class="table-light">
                     <tr>
                         <th scope="col"></th>
-                        <th scope="col">Any</th>
-                        <th scope="col">Photon</th>
-                        <th scope="col">Jet</th>
+                        <th scope="col" class="text-center">Any</th>
+                        <th scope="col" class="text-center">Photon</th>
+                        <th scope="col" class="text-center">Jet</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for trendtype,trendplots in trendings.items() %}
+                    {% for trendtype in ["Absolute", "Deviaton", "Correlation"] %}
                     <tr>
-                        <th scope="row">{{trendtype}}</th>
-                        <td><img src="{{url_for('static', filename=trendplots['any'])}}" class="img-fluid clickable-image" alt="Any trend - {{trendtype}}" style="cursor: pointer;"></td>
-                        <td><img src="{{url_for('static', filename=trendplots['photon'])}}" class="img-fluid clickable-image" alt="Photon trend - {{trendtype}}" style="cursor: pointer;"></td>
-                        <td><img src="{{url_for('static', filename=trendplots['jet'])}}" class="img-fluid clickable-image" alt="Jet trend - {{trendtype}}" style="cursor: pointer;"></td>
+                        <th scope="row"  class="text-center">{{trendtype}}</th>
+                        <td><img src="{{url_for('static', filename=trendings[trendtype]['any'])}}" class="img-fluid clickable-image" alt="Any trend - {{trendtype}}" style="cursor: pointer;"></td>
+                        <td><img src="{{url_for('static', filename=trendings[trendtype]['photon'])}}" class="img-fluid clickable-image" alt="Photon trend - {{trendtype}}" style="cursor: pointer;"></td>
+                        <td><img src="{{url_for('static', filename=trendings[trendtype]['jet'])}}" class="img-fluid clickable-image" alt="Jet trend - {{trendtype}}" style="cursor: pointer;"></td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col" class="text-center">Gamma Very Low</th>
+                        <th scope="col" class="text-center">Gamma Low</th>
+                        <th scope="col" class="text-center">Gamma High</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row"  class="text-center">Over EMCal readout</th>
+                        <td><img src="{{url_for('static', filename=trendings['OverReadout']['gammaverylow'])}}" class="img-fluid clickable-image" alt="gammaverylow - OverReadout" style="cursor: pointer;"></td>
+                        <td><img src="{{url_for('static', filename=trendings['OverReadout']['gammalow'])}}" class="img-fluid clickable-image" alt="gammalow - OverReadout" style="cursor: pointer;"></td>
+                        <td><img src="{{url_for('static', filename=trendings['OverReadout']['gammahigh'])}}" class="img-fluid clickable-image" alt="gammahigh - OverReadout" style="cursor: pointer;"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
+
 
 <div class="card">
     <div class="card-header">
@@ -54,10 +75,10 @@
             <table id="runsTable" class="table table-bordered table-hover">
                 <thead class="table-light">
                     <tr>
-                        <th scope="col">Run Number</th>
-                        <th scope="col">Photon Trigger QA</th>
-                        <th scope="col">Jet Trigger</th>
-                        <th scope="col">Trigger Selectivity</th>
+                        <th scope="col" class="text-center">Run Number</th>
+                        <th scope="col" class="text-center">Photon Trigger QA</th>
+                        <th scope="col" class="text-center">Jet Trigger</th>
+                        <th scope="col" class="text-center">Trigger Selectivity</th>
                     </tr>
                 </thead>
                 <tbody>
